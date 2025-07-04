@@ -1,0 +1,8 @@
+@use '../../styles/variables' as *;
+
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: $color-primary-light;
+}
