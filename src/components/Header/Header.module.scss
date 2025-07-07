@@ -1,0 +1,57 @@
+@use '../../styles/variables' as *;
+
+.header {
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logoImg {
+  width: 70px;
+}
+
+.logoText {
+  color: $color-primary;
+  font-size: $font-size-lg;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+
+  & > *:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.linkWrapper a {
+  display: inline-block;
+  color: $color-primary;
+  font-size: $font-size-lg;
+  line-height: 1;
+}
+
+.linkWrapper a:after {
+  background-color: $color-primary;
+  display: block;
+  content: '';
+  height: 3px;
+  width: 0%;
+  -webkit-transition: width 0.3s ease-in-out;
+  -moz--transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
+}
+
+.linkWrapper a:hover:after {
+  width: 100%;
+}

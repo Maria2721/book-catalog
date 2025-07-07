@@ -1,8 +1,33 @@
 @use '../../styles/variables' as *;
 
 .searchBar {
+  width: fit-content;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  background-color: $color-primary-light;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.label {
+  color: $color-primary;
+  font-weight: bold;
+  font-size: $font-size-lg;
+}
+
+.search,
+.filter {
+  width: 250px;
+  padding: 1px 4px;
+  background-color: rgba($color-primary-light, 0.5);
+  border: 2px solid $color-primary;
+  border-radius: 10px;
+  height: 40px;
+  margin: 10px;
+  font-weight: normal;
+}
+
+.search {
+  margin-right: 20px;
 }
