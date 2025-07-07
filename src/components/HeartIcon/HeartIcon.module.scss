@@ -1,0 +1,18 @@
+@use '../../styles/variables' as *;
+
+.heartIcon {
+  stroke: $color-accent;
+  fill: none;
+  stroke-width: 2;
+  transition:
+    fill 0.3s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.filled {
+  fill: $color-accent;
+}

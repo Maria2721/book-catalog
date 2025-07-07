@@ -6,15 +6,17 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 const App = () => {
   return (
     <BrowserRouter>
-      <header>Header</header>
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/books/:bookId" element={<BookPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </main>
-      <footer>Footer</footer>
+      <div className="layout">
+        <header>Header</header>
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/books/:bookId" element={<BookPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <footer>Footer</footer>
+      </div>
     </BrowserRouter>
   );
 };

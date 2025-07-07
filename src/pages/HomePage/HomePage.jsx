@@ -7,7 +7,7 @@ import BookList from '../../components/BookList/BookList';
 const HomePage = () => {
   const [query, setQuery] = useState('JavaScript');
   const [filter, setFilter] = useState('ebooks');
-  const maxResults = 10;
+  const maxResults = 20;
 
   const [debouncedQuery] = useDebounce(query, 500);
 
