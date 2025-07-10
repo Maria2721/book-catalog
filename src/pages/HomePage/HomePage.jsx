@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDebounce } from 'use-debounce';
 import useLoadBooks from '../../hooks/useLoadBooks';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -17,6 +17,17 @@ const HomePage = () => {
     maxResults,
   });
 
+  const isFetchingRef = useRef(isFetching);
+  const isDoneRef = useRef(isDone);
+
+  useEffect(() => {
+    isFetchingRef.current = isFetching;
+  }, [isFetching]);
+
+  useEffect(() => {
+    isDoneRef.current = isDone;
+  }, [isDone]);
+
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
   };
@@ -31,6 +42,20 @@ const HomePage = () => {
     reset();
     loadBooks();
   }, [debouncedQuery, filter]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const nearBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+
+      if (nearBottom && !isFetchingRef.current && !isDoneRef.current) {
+        loadBooks();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div>
@@ -51,12 +76,6 @@ const HomePage = () => {
 
       {!isFetching && books.length === 0 && !error && (
         <p>Ничего не найдено. Попробуйте изменить запрос.</p>
-      )}
-
-      {!isFetching && !isDone && books.length > 0 && (
-        <button onClick={loadBooks} disabled={isFetching}>
-          Показать ещё
-        </button>
       )}
 
       {isDone && books.length > 0 && <p style={{ marginTop: '1rem' }}>Все книги загружены</p>}

@@ -6,22 +6,29 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [error, setError] = useState(null);
+
   const currentStartIndex = useRef(0);
+  const isLoadingLock = useRef(false);
+
+  const bookIds = useRef(new Set());
 
   const loadBooks = async () => {
-    if (isFetching || isDone) return;
+    if (isLoadingLock.current || isFetching || isDone) return;
 
+    isLoadingLock.current = true;
     setIsFetching(true);
     setError(null);
 
     let newBooks = [];
     let startIndex = currentStartIndex.current;
 
-    const bookIds = new Set(books.map((book) => book.id));
-    const newBookIds = new Set();
-
     try {
       while (newBooks.length < maxResults) {
+        console.log(
+          '[fetchBooks]',
+          `query="${query}", filter="${filter}", startIndex=${startIndex}, maxResults=${maxResults}`,
+        );
+
         const data = await fetchBooks({
           query,
           filter,
@@ -30,6 +37,8 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
         });
 
         if (!data?.items?.length) {
+          console.log('[Пустой ответ от API]');
+
           if (books.length === 0) {
             setError('Ничего не найдено по вашему запросу');
           }
@@ -38,9 +47,9 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
         }
 
         const uniqueBooks = data.items.filter((item) => {
-          const isUnique = !bookIds.has(item.id) && !newBookIds.has(item.id);
+          const isUnique = !bookIds.current.has(item.id);
           if (isUnique) {
-            newBookIds.add(item.id);
+            bookIds.current.add(item.id);
           }
           return isUnique;
         });
@@ -54,20 +63,26 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
         }
       }
 
-      setBooks((prev) => [...prev, ...newBooks.slice(0, maxResults)]);
+      //setBooks((prev) => [...prev, ...newBooks.slice(0, maxResults)]);
+      console.log('[Добавлено книг]:', newBooks.length);
+      setBooks((prev) => [...prev, ...newBooks]);
       currentStartIndex.current = startIndex;
-    } catch {
+    } catch (err) {
+      console.error('[Ошибка запроса]', err);
       setError('Не удалось загрузить книги. Попробуйте позже');
     } finally {
+      isLoadingLock.current = false;
       setIsFetching(false);
     }
   };
 
   const reset = () => {
+    console.log('[Сброс состояния]');
     setBooks([]);
     setIsDone(false);
     setError(null);
     currentStartIndex.current = 0;
+    bookIds.current = new Set();
   };
 
   return {
