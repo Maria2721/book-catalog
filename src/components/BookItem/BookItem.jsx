@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useFavorites from '../../hooks/useFavorites';
+import { addFavorite, removeFavorite, getFavorites } from '../../store/favoritesStore';
 import HeartIcon from '../HeartIcon/HeartIcon';
 import styles from './BookItem.module.scss';
 
@@ -8,26 +8,27 @@ const BookItem = ({ book }) => {
   const { title, authors, description, imageLinks } = volumeInfo;
 
   const [liked, setLiked] = useState(false);
-  const { toggleFavorite } = useFavorites();
 
   useEffect(() => {
-    const books = JSON.parse(localStorage.getItem('favoriteBooks')) || [];
-    const alreadyLiked = books.some((item) => item.id === id);
-    if (alreadyLiked) {
-      setLiked(true);
-    }
+    const alreadyLiked = getFavorites().some((item) => item.id === id);
+    setLiked(alreadyLiked);
   }, [id]);
-
-  const handleClick = () => {
-    console.log(`Открыть старницу книги с id ${id}`);
-  };
 
   const handleFavoriteChange = (e) => {
     e.stopPropagation();
 
     const newLiked = !liked;
     setLiked(newLiked);
-    toggleFavorite(book, newLiked);
+
+    if (newLiked) {
+      addFavorite(book);
+    } else {
+      removeFavorite(book.id);
+    }
+  };
+
+  const handleClick = () => {
+    console.log(`Открыть старницу книги с id ${id}`);
   };
 
   return (
