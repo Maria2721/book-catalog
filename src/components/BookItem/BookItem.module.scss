@@ -13,14 +13,11 @@
     margin-bottom: 10px;
   }
 
-  cursor: pointer;
-}
+  & > button {
+    align-self: flex-end;
+  }
 
-.favorite {
-  align-self: flex-end;
-  background: transparent;
-  border: none;
-  padding: 0;
+  cursor: pointer;
 }
 
 .image {

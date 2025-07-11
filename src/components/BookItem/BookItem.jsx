@@ -1,46 +1,20 @@
-import { useState, useEffect } from 'react';
-import { addFavorite, removeFavorite, getFavorites } from '../../store/favoritesStore';
-import HeartIcon from '../HeartIcon/HeartIcon';
+import { useNavigate } from 'react-router-dom';
+import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import styles from './BookItem.module.scss';
 
 const BookItem = ({ book }) => {
+  const navigate = useNavigate();
   const { id, volumeInfo } = book;
   const { title, authors, description, imageLinks } = volumeInfo;
 
-  const [liked, setLiked] = useState(false);
-
-  useEffect(() => {
-    const alreadyLiked = getFavorites().some((item) => item.id === id);
-    setLiked(alreadyLiked);
-  }, [id]);
-
-  const handleFavoriteChange = (e) => {
-    e.stopPropagation();
-
-    const newLiked = !liked;
-    setLiked(newLiked);
-
-    if (newLiked) {
-      addFavorite(book);
-    } else {
-      removeFavorite(book.id);
-    }
-  };
-
   const handleClick = () => {
     console.log(`Открыть старницу книги с id ${id}`);
+    navigate(`/${id}`);
   };
 
   return (
     <div className={styles.card} onClick={handleClick}>
-      <button
-        className={styles.favorite}
-        onClick={handleFavoriteChange}
-        aria-label={liked ? 'Удалить из избранного' : 'Добавить в избранное'}
-      >
-        <HeartIcon liked={liked} />
-      </button>
-
+      <FavoriteButton book={book} />
       <img className={styles.image} src={imageLinks?.thumbnail} alt={title} />
 
       <h3 className={styles.title}>{title}</h3>

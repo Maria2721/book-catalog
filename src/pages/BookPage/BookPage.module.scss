@@ -1,0 +1,38 @@
+@use '../../styles/variables' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 20px 0;
+
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.image {
+  width: 200px;
+  height: fit-content;
+  margin-right: 20px;
+}
+
+.info {
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.title {
+  display: grid;
+  grid-template-columns: 1fr 24px;
+  gap: 10px;
+  align-items: center;
+}
