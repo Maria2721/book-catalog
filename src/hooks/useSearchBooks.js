@@ -7,7 +7,7 @@ const useSearchBooks = ({ query, filter, maxResults, startIndex }) => {
     queryFn: () => fetchBooks({ query, filter, maxResults, startIndex }),
     staleTime: 1000 * 60 * 5,
     keepPreviousData: true,
-    retry: 2,
+    retry: 1,
     enabled: !!query,
   });
 };
