@@ -22,8 +22,8 @@ const BookPage = () => {
             alt={book?.volumeInfo?.title}
           />
           <div className={styles.info}>
-            <div className={styles.title}>
-              <h2>{book?.volumeInfo?.title}</h2>
+            <div className={styles.titleWrapper}>
+              <h2 className={styles.title}>{book?.volumeInfo?.title}</h2>
               <FavoriteButton book={book} />
             </div>
             <p>
@@ -44,7 +44,9 @@ const BookPage = () => {
             </p>
             <p>
               <strong> Средний рейтинг : </strong>
-              {book?.volumeInfo?.ratingsCount || 'Не указан'}
+              {book?.volumeInfo?.averageRating
+                ? book?.volumeInfo?.averageRating + '/5'
+                : 'Не указан'}
             </p>
           </div>
         </div>

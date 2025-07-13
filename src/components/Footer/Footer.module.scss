@@ -3,7 +3,7 @@
 .footer {
   text-align: center;
   color: $color-primary;
-  font-size: $font-size-lg;
+  font-size: $font-size-md;
 
   p {
     margin: 10px 0;
@@ -11,5 +11,11 @@
 
   p > a {
     font-weight: bold;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .footer {
+    font-size: $font-size-sm;
   }
 }

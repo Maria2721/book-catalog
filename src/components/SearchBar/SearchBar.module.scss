@@ -7,13 +7,12 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
 }
 
 .label {
   color: $color-primary;
   font-weight: bold;
-  font-size: $font-size-lg;
+  font-size: $font-size-md;
 }
 
 .search,
@@ -30,4 +29,18 @@
 
 .search {
   margin-right: 20px;
+}
+
+@media (max-width: $breakpoint-sm) {
+  .label {
+    font-size: $font-size-sm;
+  }
+
+  .search,
+  .filter {
+    width: 180px;
+    border-radius: 5px;
+    height: 30px;
+    margin: 5px;
+  }
 }

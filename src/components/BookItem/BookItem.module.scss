@@ -25,3 +25,28 @@
   height: 300px;
   width: fit-content;
 }
+
+.title {
+  font-size: $font-size-md;
+  line-height: $line-height-base;
+  font-weight: bold;
+}
+
+@media (max-width: $breakpoint-sm) {
+  .card {
+    padding: 10px;
+    border-radius: 5px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+
+  .image {
+    height: 200px;
+  }
+
+  .title {
+    font-size: $font-size-sm;
+  }
+}

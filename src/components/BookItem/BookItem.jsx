@@ -8,7 +8,6 @@ const BookItem = ({ book }) => {
   const { title, authors, description, imageLinks } = volumeInfo;
 
   const handleClick = () => {
-    console.log(`Открыть старницу книги с id ${id}`);
     navigate(`/${id}`);
   };
 

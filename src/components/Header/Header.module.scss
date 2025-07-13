@@ -20,7 +20,7 @@
 
 .logoText {
   color: $color-primary;
-  font-size: $font-size-lg;
+  font-size: $font-size-md;
   font-weight: bold;
   line-height: 1;
 }
@@ -37,7 +37,7 @@
 .linkWrapper a {
   display: inline-block;
   color: $color-primary;
-  font-size: $font-size-lg;
+  font-size: $font-size-md;
   line-height: 1;
 }
 
@@ -54,4 +54,25 @@
 
 .linkWrapper a:hover:after {
   width: 100%;
+}
+
+@media (max-width: $breakpoint-sm) {
+  .header {
+    height: 40px;
+  }
+
+  .logoImg {
+    width: 40px;
+  }
+
+  .logoText,
+  .linkWrapper a {
+    font-size: $font-size-sm;
+  }
+
+  .navigation {
+    & > *:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
 }

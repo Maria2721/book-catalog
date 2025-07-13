@@ -1,7 +1,16 @@
+@use '../../styles/variables' as *;
+
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   justify-content: center;
   margin: 20px 0;
+}
+
+@media (max-width: $breakpoint-sm) {
+  .container {
+    gap: 10px;
+    margin: 10px 0;
+  }
 }

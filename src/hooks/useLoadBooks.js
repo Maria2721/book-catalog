@@ -23,11 +23,6 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
 
     try {
       while (newBooks.length < maxResults) {
-        console.log(
-          '[fetchBooks]',
-          `query="${cleanQuery}", filter="${filter}", startIndex=${startIndex}, maxResults=${maxResults}`,
-        );
-
         const data = await fetchBooks({
           query: cleanQuery,
           filter,
@@ -36,8 +31,6 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
         });
 
         if (!data?.items?.length) {
-          console.log('[Пустой ответ от API]');
-
           if (books.length === 0) {
             const msg = 'Ничего не найдено по вашему запросу';
             toast.info(msg);
@@ -64,11 +57,9 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
         }
       }
 
-      console.log('[Добавлено книг]:', newBooks.length);
       setBooks((prev) => [...prev, ...newBooks]);
       currentStartIndex.current = startIndex;
-    } catch (err) {
-      console.error('[Ошибка запроса]', err);
+    } catch {
       const msg = 'Не удалось загрузить книги. Попробуйте позже';
       toast.error(msg);
       setError(msg);
@@ -78,7 +69,6 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
   };
 
   const reset = () => {
-    console.log('[Сброс состояния]');
     setBooks([]);
     setIsDone(false);
     setError(null);

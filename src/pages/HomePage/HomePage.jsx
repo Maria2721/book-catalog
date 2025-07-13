@@ -64,16 +64,13 @@ const HomePage = () => {
   return (
     <div>
       <h1>Каталог книг</h1>
-
       <SearchBar
         query={query}
         filter={filter}
         onQueryChange={handleQueryChange}
         onFilterChange={handleFilterChange}
       />
-
       <BookList books={books} />
-
       {isFetching && <p>Загрузка...</p>}
       {error && !isFetching && <p>{error}</p>}
       {isDone && books.length > 0 && <p>Все книги загружены</p>}
