@@ -7,7 +7,7 @@ const FavoritesPage = () => {
   return (
     <div>
       <h1>Каталог избранных книг</h1>
-      <BookList books={books} />
+      {books.length ? <BookList books={books} /> : <p>У вас нет избранных книг</p>}
     </div>
   );
 };
