@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { fetchBooks } from '../api/booksApi';
 
 const useLoadBooks = ({ query, filter, maxResults }) => {
@@ -7,15 +8,13 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
   const [isDone, setIsDone] = useState(false);
   const [error, setError] = useState(null);
 
+  const cleanQuery = query?.trim();
   const currentStartIndex = useRef(0);
-  const isLoadingLock = useRef(false);
-
   const bookIds = useRef(new Set());
 
   const loadBooks = async () => {
-    if (isLoadingLock.current || isFetching || isDone) return;
+    if (isFetching || isDone) return;
 
-    isLoadingLock.current = true;
     setIsFetching(true);
     setError(null);
 
@@ -26,11 +25,11 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
       while (newBooks.length < maxResults) {
         console.log(
           '[fetchBooks]',
-          `query="${query}", filter="${filter}", startIndex=${startIndex}, maxResults=${maxResults}`,
+          `query="${cleanQuery}", filter="${filter}", startIndex=${startIndex}, maxResults=${maxResults}`,
         );
 
         const data = await fetchBooks({
-          query,
+          query: cleanQuery,
           filter,
           maxResults,
           startIndex,
@@ -40,7 +39,9 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
           console.log('[Пустой ответ от API]');
 
           if (books.length === 0) {
-            setError('Ничего не найдено по вашему запросу');
+            const msg = 'Ничего не найдено по вашему запросу';
+            toast.info(msg);
+            setError(msg);
           }
           setIsDone(true);
           break;
@@ -63,15 +64,15 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
         }
       }
 
-      //setBooks((prev) => [...prev, ...newBooks.slice(0, maxResults)]);
       console.log('[Добавлено книг]:', newBooks.length);
       setBooks((prev) => [...prev, ...newBooks]);
       currentStartIndex.current = startIndex;
     } catch (err) {
       console.error('[Ошибка запроса]', err);
-      setError('Не удалось загрузить книги. Попробуйте позже');
+      const msg = 'Не удалось загрузить книги. Попробуйте позже';
+      toast.error(msg);
+      setError(msg);
     } finally {
-      isLoadingLock.current = false;
       setIsFetching(false);
     }
   };

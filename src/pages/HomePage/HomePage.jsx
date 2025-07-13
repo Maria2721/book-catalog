@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDebounce } from 'use-debounce';
+import { toast } from 'react-toastify';
 import useLoadBooks from '../../hooks/useLoadBooks';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import BookList from '../../components/BookList/BookList';
@@ -37,7 +38,10 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    if (!debouncedQuery) return;
+    if (!debouncedQuery) {
+      toast.error('Введите обязательный параметр: Поиск');
+      return;
+    }
 
     reset();
     loadBooks();
@@ -70,15 +74,9 @@ const HomePage = () => {
 
       <BookList books={books} />
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
       {isFetching && <p>Загрузка...</p>}
-
-      {!isFetching && books.length === 0 && !error && (
-        <p>Ничего не найдено. Попробуйте изменить запрос.</p>
-      )}
-
-      {isDone && books.length > 0 && <p style={{ marginTop: '1rem' }}>Все книги загружены</p>}
+      {error && !isFetching && <p>{error}</p>}
+      {isDone && books.length > 0 && <p>Все книги загружены</p>}
     </div>
   );
 };
