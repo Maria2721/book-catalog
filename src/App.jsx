@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import HomePage from './pages/HomePage/HomePage';
 import BookPage from './pages/BookPage/BookPage';
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
@@ -21,6 +24,15 @@ const App = () => {
         </main>
         <Footer />
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </BrowserRouter>
   );
 };
