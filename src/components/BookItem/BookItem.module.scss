@@ -24,6 +24,13 @@
   align-self: center;
   height: 300px;
   width: fit-content;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image[src] {
+  opacity: 1;
 }
 
 .title {

@@ -20,6 +20,7 @@ const BookPage = () => {
             className={styles.image}
             src={book?.volumeInfo?.imageLinks?.thumbnail}
             alt={book?.volumeInfo?.title}
+            loading="lazy"
           />
           <div className={styles.info}>
             <div className={styles.titleWrapper}>

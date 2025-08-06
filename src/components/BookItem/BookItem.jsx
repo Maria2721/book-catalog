@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import FavoriteButton from '../FavoriteButton/FavoriteButton';
+import LazyImage from '../LazyImage/LazyImage';
 import styles from './BookItem.module.scss';
 
 const BookItem = ({ book }) => {
@@ -14,7 +15,7 @@ const BookItem = ({ book }) => {
   return (
     <div className={styles.card} onClick={handleClick}>
       <FavoriteButton book={book} />
-      <img className={styles.image} src={imageLinks?.thumbnail} alt={title} />
+      <LazyImage className={styles.image} src={imageLinks?.thumbnail} alt={title} />
 
       <h3 className={styles.title}>{title}</h3>
       <p>
