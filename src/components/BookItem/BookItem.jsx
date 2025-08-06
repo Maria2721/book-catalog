@@ -8,7 +8,7 @@ const BookItem = ({ book }) => {
   const { title, authors, description, imageLinks } = volumeInfo;
 
   const handleClick = () => {
-    navigate(`/${id}`);
+    navigate(`/books/${id}`);
   };
 
   return (

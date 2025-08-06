@@ -23,6 +23,10 @@ const useLoadBooks = ({ query, filter, maxResults }) => {
 
     try {
       while (newBooks.length < maxResults) {
+        console.log(
+          `query: ${cleanQuery}, filter: ${filter}, maxResults: ${maxResults}, startIndex: ${startIndex}`,
+        );
+
         const data = await fetchBooks({
           query: cleanQuery,
           filter,

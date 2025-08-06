@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDebounce } from 'use-debounce';
 import { toast } from 'react-toastify';
 import useLoadBooks from '../../hooks/useLoadBooks';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import BookList from '../../components/BookList/BookList';
+import InfiniteScroll from '../../components/InfiniteScroll/InfiniteScroll';
 
 const HomePage = () => {
   const [query, setQuery] = useState('JavaScript');
@@ -17,17 +18,6 @@ const HomePage = () => {
     filter,
     maxResults,
   });
-
-  const isFetchingRef = useRef(isFetching);
-  const isDoneRef = useRef(isDone);
-
-  useEffect(() => {
-    isFetchingRef.current = isFetching;
-  }, [isFetching]);
-
-  useEffect(() => {
-    isDoneRef.current = isDone;
-  }, [isDone]);
 
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
@@ -47,20 +37,6 @@ const HomePage = () => {
     loadBooks();
   }, [debouncedQuery, filter]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const nearBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
-
-      if (nearBottom && !isFetchingRef.current && !isDoneRef.current) {
-        loadBooks();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div>
       <h1>Каталог книг</h1>
@@ -70,8 +46,10 @@ const HomePage = () => {
         onQueryChange={handleQueryChange}
         onFilterChange={handleFilterChange}
       />
-      <BookList books={books} />
-      {isFetching && <p>Загрузка...</p>}
+      <InfiniteScroll loadMore={loadBooks} hasMore={!isDone} isLoading={isFetching}>
+        <BookList books={books} />
+      </InfiniteScroll>
+
       {error && !isFetching && <p>{error}</p>}
       {isDone && books.length > 0 && <p>Все книги загружены</p>}
     </div>
