@@ -11,6 +11,11 @@ const BookPage = () => {
   if (isLoading) return <p>Загрузка...</p>;
   if (isError) return <p>Ошибка при загрузке книги</p>;
 
+  const description =
+    typeof book?.volumeInfo?.description === 'string'
+      ? parse(book.volumeInfo.description)
+      : 'Нет описания';
+
   return (
     <div>
       <h1>Информация о книге</h1>
@@ -53,7 +58,7 @@ const BookPage = () => {
         </div>
         <div>
           <strong>Описание: </strong>
-          {parse(book?.volumeInfo?.description) || 'Нет описания'}
+          {description}
         </div>
       </div>
     </div>
